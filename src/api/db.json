@@ -1,1 +1,22 @@
-{"schema":{"users":[{"id":51890562,"firstName":"Aric","lastName":"Schoen","email":"Richard_Stark@yahoo.com"},{"id":84527018,"firstName":"Antwan","lastName":"Rowe","email":"Luella.Hartmann94@yahoo.com"},{"id":54472156,"firstName":"Keyon","lastName":"Adams","email":"Nils.Schinner@gmail.com"},{"id":31734320,"firstName":"Audie","lastName":"Spencer","email":"Kendrick35@gmail.com"}]},"id":"http://json-schema.org/schema#"}
+{
+  "users": [
+    {
+      "id": 98142302,
+      "firstName": "Allen",
+      "lastName": "Metz",
+      "email": "America_Nader49@yahoo.com"
+    },
+    {
+      "id": 40760480,
+      "firstName": "Lorine",
+      "lastName": "Kunde",
+      "email": "Oma74@yahoo.com"
+    },
+    {
+      "id": 16868222,
+      "firstName": "Otilia",
+      "lastName": "Funk",
+      "email": "Wade59@hotmail.com"
+    }
+  ]
+}

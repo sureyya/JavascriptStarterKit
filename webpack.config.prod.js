@@ -1,22 +1,55 @@
 import path from 'path';
 import webpack from 'webpack';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import WebpackMd5Hash from 'webpack-md5-hash';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 export default {
   debug: true,
   devtool: 'source-map',
   noInfo: false,
-  entry: [
-    path.resolve(__dirname, 'src/index')
-  ],
+  entry: {
+    vendor:path.resolve(__dirname, 'src/api/vendor'),
+    main:path.resolve(__dirname, 'src/index')
+  },
   target: 'web',
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
-    filename: 'bundle.js'
+    filename: '[name].[chunkhash].js'
   },
   plugins: [
+
+    //Generate an external css file with a hash in the filename
+    new ExtractTextPlugin('[name].[contenthash].css'),
+
+    //Hash the files using MD5 so that their names change when the content change
+    new WebpackMd5Hash(),
+
+    //create a separate bundle of vendor libraries
+    new webpack.optimize.CommonsChunkPlugin({
+      name:'vendor'
+    }),
+
+    //dynamic html generation and adding bundle.js in the end of page
+    new HtmlWebpackPlugin({
+      template:'src/index.html',
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true
+      },
+      inject:true
+    }),
     //Eliminate duplicate packages when generating bundle
-    new webpack.optimize.DedudePlugin(),
+    new webpack.optimize.DedupePlugin(),
 
     //minify JS
     new webpack.optimize.UglifyJsPlugin()
@@ -24,7 +57,7 @@ export default {
   module: {
     loaders: [
       {test: /\.js$/, exclude: /node_modules/, loaders: ['babel']},
-      {test: /\.css$/, loaders: ['style','css']}
+      {test: /\.css$/, loader: ExtractTextPlugin.extract('css?sourceMap')}
     ]
   }
 }
